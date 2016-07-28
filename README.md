@@ -6,21 +6,21 @@ A theme for [Zsh][zsh].
 
 ### Asciinema
 
-[![asciicast](https://asciinema.org/a/81174.png)](https://asciinema.org/a/81174)
+[![asciicast](screenshots/asciinema.png)](https://asciinema.org/a/81174)
 
 ### ITerm2
 
 #### [Dissonance Color Scheme][theme-dissonance-iterm2]
 
-![ITerm2 Dissonance](./screenshots/iterm2-dissonance)
+![ITerm2 Dissonance](screenshots/iterm2-dissonance.png)
 
 #### Solarized Dark Color Scheme
 
-![ITerm2 Solarized Dark](screenshots/iterm2-solarized-dark)
+![ITerm2 Solarized Dark](screenshots/iterm2-solarized-dark.png)
 
 #### Solarized Light Color Scheme
 
-![ITerm2 Solarized Light](screenshots/iterm2-solarized-light)
+![ITerm2 Solarized Light](screenshots/iterm2-solarized-light.png)
 
 ## Install
 
