@@ -1,5 +1,5 @@
-## Dissonance Zsh Theme
-##
-## Created By: Ryan Scott Lewis <ryanscottlewis@gmail.com>
-## License: MIT
-## Version: %{version}
+Dissonance Zsh Theme
+
+Created By: Ryan Scott Lewis <ryanscottlewis@gmail.com>
+License: MIT
+Version: %{version}
