@@ -10,8 +10,10 @@ TODO
 
 ## Install
 
-[Download the most recent release][download] use `source` to load the files.
+[Download the most recent release][download-prompt] use `source` to load the files.
 
+The project also comes with custom `LSCOLORS`/`LS_COLORS` settings which you can [download here][download-ls].
 [zsh]: http://www.zsh.org
-[download]: https://raw.githubusercontent.com/RyanScottLewis/theme-dissonance-ranger/%{version}/lib/dissonance.py
+[download-prompt]: https://raw.githubusercontent.com/RyanScottLewis/theme-dissonance-ranger/%{version}/lib/dissonance-prompt-zsh
+[download-ls]: https://raw.githubusercontent.com/RyanScottLewis/theme-dissonance-ranger/%{version}/lib/dissonance-ls-zsh
 [theme-dissonance-iterm2]: https://github.com/RyanScottLewis/theme-dissonance-iterm2
