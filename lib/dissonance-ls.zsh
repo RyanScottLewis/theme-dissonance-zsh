@@ -2,7 +2,7 @@
 ## 
 ## Created By: Ryan Scott Lewis <ryanscottlewis@gmail.com>
 ## License: MIT
-## Version: 0.0.1
+## Version: 0.0.2
 
 # -= BSD =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
 LSCOLORS="cxFxgxhxbxeadaabagDdad"
