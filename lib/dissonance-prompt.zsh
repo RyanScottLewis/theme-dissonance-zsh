@@ -1,5 +1,5 @@
 ## Dissonance Zsh Theme
-##
+## 
 ## Created By: Ryan Scott Lewis <ryanscottlewis@gmail.com>
 ## License: MIT
 ## Version: 0.0.2
@@ -45,9 +45,8 @@ THEME_COLOR_KEYMAP_VI_COMMAND=$THEME_COLOR_KEYMAP_VI
 THEME_COLOR_KEYMAP_VI_INSERT=$THEME_COLOR_KEYMAP_VI
 THEME_COLOR_KEYMAP_VI_OPERATOR_PENDING=$THEME_COLOR_KEYMAP_VI
 THEME_COLOR_KEYMAP_VI_VISUAL=$THEME_COLOR_KEYMAP_VI
-THEME_COLOR_KEYMAP_PROMPT_VI_COMMAND_BACKGROUND=$THEME_PALETTE_BLACK
-THEME_COLOR_KEYMAP_PROMPT_VI_COMMAND_FOREGROUND=$THEME_PALETTE_GREEN
-THEME_COLOR_KEYMAP_ISEARCH=$THEME_COLOR_KEYMAP
+THEME_COLOR_KEYMAP_VI_COMMAND=$THEME_COLOR_KEYMAP_VI
+THEME_COLOR_KEYMAP_VI_COMMAND_FOREGROUND=$THEME_PALETTE_GREEN_BRIGHT
 THEME_COLOR_KEYMAP_COMMAND=$THEME_COLOR_KEYMAP
 THEME_COLOR_SESSION=$THEME_PALETTE_MAGENTA_BRIGHT
 THEME_COLOR_SHELL_LEVEL=$THEME_PALETTE_MAGENTA
@@ -60,7 +59,7 @@ THEME_COLOR_JOBS=$THEME_PALETTE_GREEN_BRIGHT
 # Sigils are any braile pattern which is 4 dots high with a dot in the first or last row.
 
 export THEME_SIGILS="⣽⣼⣻⣺⣹⣸⣷⣵⣳⣱⣯⣮⣭⣬⣫⣪⣩⣨⣧⣥⣣⣡⣟⣞⣝⣜⣛⣚⣙⣘⣗⣕⣓⣑⣏⣇⣈⣉⣊⣋⣌⣍⣎⣅⣃⣁⢿⢾⢽⢼⢻⢺⢹⢸⢷⢵⢳⢱⢯⢮⢭⢬⢫⢪⢩⢨⢧⢥⢣⢡⢟⢞⢝⢜⢛⢚⢙⢘⢗⢕⢓⢑⢏⢎⢍⢌⢋⢊⢉⢈⢇⢅⢃⡿⡾⡽⡼⡻⡺⡹⡸⡷⡵⡳⡱⡯⡮⡭⡬⡫⡪⡩⡨⡧⡥⡣⡡⡟⡞⡝⡜⡛⡚⡙⡘⡗⡕⡓⡑⡏⡎⡍⡌⡋⡊⡉⡈⡇⡅⡃⡁"
-THEME_SIGIL=$(ruby -e "print ENV['THEME_SIGILS'].chars.sample")
+THEME_SIGIL=$(ruby -e "print ENV['THEME_SIGILS'].chars.sample") # TODO: Use shell script for this
 
 # -= Components =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- #
 
@@ -123,7 +122,7 @@ THEME_PROMPT_KEYMAP_VI_OPERATOR_PENDING="Vi Pending"
 THEME_PROMPT_KEYMAP_VI_VISUAL="Vi Visual"
 THEME_PROMPT_KEYMAP_ISEARCH="Search"
 THEME_PROMPT_KEYMAP_COMMAND="Command"
-THEME_PROMPT_KEYMAP_MAIN=$THEME_PROMPT_KEYMAP_VI_INSERT # Set the default here
+THEME_PROMPT_KEYMAP_MAIN=$THEME_PROMPT_KEYMAP_VI_INSERT # Set the default here # TODO: Detect?
 THEME_PROMPT_KEYMAP_CURRENT=$THEME_PROMPT_KEYMAP_MAIN
 
 function theme_prompt_keymap() {
@@ -131,6 +130,12 @@ function theme_prompt_keymap() {
   echo -n "%{$FG[$THEME_COLOR_KEYMAP]%}" # TODO: THEME_COLOR_KEYMAP_* colors
   echo -n $THEME_PROMPT_KEYMAP_CURRENT
   echo -n "%{$reset_color%}"
+}
+
+function theme_prompt_mode_foreground() {
+  if [ $THEME_PROMPT_KEYMAP_CURRENT = $THEME_PROMPT_KEYMAP_VI_COMMAND ]; then
+    echo -n "%F{$THEME_COLOR_KEYMAP_VI_COMMAND_FOREGROUND}"
+  fi
 }
 
 # -- Session ------------------------------------------------------------------------------------- #
@@ -203,8 +208,8 @@ function theme_prompt_jobs() {
 # Set a custom state in the `theme_update_status` function and set it to either the
 # `THEME_STATE_MAIN` or `THEME_STATE_ALTERNATE` variables.
 
-THEME_STATE_MAIN="full"
-THEME_STATE_ALTERNATE="compact"
+THEME_STATE_MAIN="compact"
+THEME_STATE_ALTERNATE="full"
 THEME_STATE_CURRENT=$THEME_STATE_MAIN
 
 # The list of available theme states
@@ -214,20 +219,15 @@ typeset -A THEME_STATE_PROMPT_LEFT
 typeset -A THEME_STATE_PROMPT_RIGHT
 
 # Refresh the prompt states
+# TODO: Scroll through a list of states, instead of alternating between 2?
 function theme_update_state() {
-
   # -- Full State
-  THEME_STATE_PROMPT_LEFT[full]="$(theme_prompt_user)@$(theme_prompt_host):$(theme_prompt_path 3) $(theme_prompt_date) $(theme_prompt_time) $(theme_prompt_sigil) "
-  THEME_STATE_PROMPT_RIGHT[full]="$(theme_prompt_keymap)$(theme_prompt_session)$(theme_prompt_shell_level)$(theme_prompt_git_branch)$(theme_prompt_rvm)$(theme_prompt_jobs)"
-
-  if [ $THEME_PROMPT_KEYMAP_CURRENT = $THEME_PROMPT_KEYMAP_VI_COMMAND ]; then
-    THEME_STATE_PROMPT_LEFT[full]="$THEME_STATE_PROMPT_LEFT[full]%K{$THEME_COLOR_KEYMAP_PROMPT_VI_COMMAND_BACKGROUND}%F{$THEME_COLOR_KEYMAP_PROMPT_VI_COMMAND_FOREGROUND}"
-    THEME_STATE_PROMPT_RIGHT[full]="%f%k$THEME_STATE_PROMPT_RIGHT[full]%E"
-  fi
+  THEME_STATE_PROMPT_LEFT[full]="$(theme_prompt_user)@$(theme_prompt_host):$(theme_prompt_path 3) $(theme_prompt_date) $(theme_prompt_time) $(theme_prompt_sigil) $(theme_prompt_mode_foreground)"
+  THEME_STATE_PROMPT_RIGHT[full]="%{$reset_color%}$(theme_prompt_keymap)$(theme_prompt_session)$(theme_prompt_shell_level)$(theme_prompt_git_branch)$(theme_prompt_rvm)$(theme_prompt_jobs)"
 
   # -- Compact State
-  THEME_STATE_PROMPT_LEFT[compact]="$(theme_prompt_user) $(theme_prompt_path 1) $(theme_prompt_sigil) "
-  THEME_STATE_PROMPT_RIGHT[compact]="$(theme_prompt_keymap)$(theme_prompt_git_branch)$(theme_prompt_jobs)"
+  THEME_STATE_PROMPT_LEFT[compact]="$(theme_prompt_user) $(theme_prompt_path 1) $(theme_prompt_sigil) $(theme_prompt_mode_foreground)"
+  THEME_STATE_PROMPT_RIGHT[compact]="%{$reset_color%}$(theme_prompt_keymap)$(theme_prompt_git_branch)$(theme_prompt_jobs)"
 }
 
 # Toggle the theme's current state between main and alternate
